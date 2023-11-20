@@ -1,19 +1,22 @@
-import { useOverflowDetector } from 'react-detectable-overflow';
+
 import styles from './post-item.module.css'
 import { Post } from '../../types/postsType';
 import { Link } from 'react-router-dom';
+import { useRef } from 'react';
+import useOverflowDetector from '../../hooks/useOverflowDetector';
 
 type PostItemProps = {
   post: Post;
 };
 
 function PostItem({ post }: PostItemProps) {
-  const { ref , overflow } = useOverflowDetector({});
+  const elementRef = useRef<HTMLDivElement>(null);
+  const { isOverflowing } = useOverflowDetector(elementRef);
 
   return (
     <>
       <p
-        ref={ref}
+        ref={elementRef}
         className={styles.post}
         style={{
           textOverflow: 'ellipsis',
@@ -24,7 +27,7 @@ function PostItem({ post }: PostItemProps) {
       >
         {post.id + ' ' + post.name + ' ' + post.post}
       </p>
-      {overflow ? <Link className='post-link' to={`/post/${post.id}`}> Показать </Link> : null}
+      {isOverflowing ? <Link className='post-link' to={`/post/${post.id}`}> Показать </Link> : null}
     </>
   );
 }
