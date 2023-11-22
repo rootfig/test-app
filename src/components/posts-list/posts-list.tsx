@@ -18,9 +18,6 @@ function PostsList() {
   };
 
   if (isLoading) return <h3>Loading...</h3>;
-
-  console.log(limit);
-  console.log(data.length);
   
   return (
     <div className='container'>
