@@ -1,22 +1,16 @@
 
-import { useGetPostsQuery, useDeletePostMutation } from '../../api/postsApi';
+import { useGetPostsQuery } from '../../api/postsApi';
 import { Post } from '../../types/postsType';
 import { useState } from 'react';
 import PostItem from '../post-item/post-item';
 import { LIMIT_SHOW_STEP } from '../../common';
 import FormPost from '../form-post/form-post';
+import DeletePostButton from '../delete-post-button/delete-post-button';
 
 function PostsList() {
   
   const [limit, setNewLimit] = useState(5)
   const { data, isLoading } = useGetPostsQuery(limit);
-  
-  const [deletePost] = useDeletePostMutation();
-
-  
-  const handleDeletePost = async (id: number) => {
-    await deletePost(id).unwrap();
-  }
 
   if (isLoading) return <h3>Loading...</h3>;
 
@@ -26,12 +20,10 @@ function PostsList() {
       <ul>
         {data.map((post: Post) => (
           <li key={post.id} >
-            <button
-              onClick={() => handleDeletePost(post.id)}
-              className='deleteButton'
-            >Удалить</button>
-            <PostItem post={post} />
 
+            <DeletePostButton post={post}/>
+            <PostItem post={post} />
+            
           </li>
         ))}
       </ul>
