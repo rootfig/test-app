@@ -6,14 +6,22 @@ import PostItem from '../post-item/post-item';
 import { LIMIT_SHOW_STEP } from '../../common';
 import FormPost from '../form-post/form-post';
 import DeletePostButton from '../delete-post-button/delete-post-button';
+import LoadMoreButton from '../load-more-button/load-more-button';
 
 function PostsList() {
   
   const [limit, setNewLimit] = useState(5)
   const { data, isLoading } = useGetPostsQuery(limit);
 
+  const handleLoadMore = () => {
+    setNewLimit(limit + LIMIT_SHOW_STEP);
+  };
+
   if (isLoading) return <h3>Loading...</h3>;
 
+  console.log(limit);
+  console.log(data.length);
+  
   return (
     <div className='container'>
       <FormPost />
@@ -27,11 +35,10 @@ function PostsList() {
           </li>
         ))}
       </ul>
-      <button
-        onClick={() => setNewLimit(limit + LIMIT_SHOW_STEP)}
-        className='more-posts'
-      >Еще 5 постов
-      </button>
+    {
+      data.length >= limit &&
+      <LoadMoreButton onClick={handleLoadMore} />
+    }
     </div>
   )
 }

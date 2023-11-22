@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useAddPostMutation } from "../../api/postsApi";
 
 function FormPost() {
+  
   const [newName, setNewName] = useState("");
   const [newPost, setNewPost] = useState("");
   const [addPost] = useAddPostMutation();
